@@ -58,7 +58,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X_resampled, y_resampled, test_size=0.2, random_state=3)
 
 # treinamento do modelo
-modelo = DecisionTreeClassifier(random_state=0)
+modelo = DecisionTreeClassifier(criterion='gini')
 modelo.fit(X_train, y_train)
 
 # teste do modelo
