@@ -8,6 +8,7 @@ from imblearn.under_sampling import RandomUnderSampler
 
 # ler arquivo CSV
 datainput = pd.read_csv("bd_diabetes.csv", delimiter=",")
+datainput = datainput.drop_duplicates() #eliminar redundancia
 
 # Define a função para agrupar as idades
 def age_to_group(age):
