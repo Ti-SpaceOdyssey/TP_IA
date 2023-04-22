@@ -42,6 +42,22 @@ def income_to_group(income):
 # Aplica a função à coluna 'Income' e sobrescreve os valores originais
 datainput['Income'] = datainput['Income'].apply(income_to_group)
 
+def genhlth_to_group(genhlth):
+    if genhlth == 5:
+        return 1
+    elif genhlth == 4:
+        return 2
+    elif genhlth == 3:
+        return 3
+    elif genhlth == 2:
+        return 4
+    else:
+        return 5
+
+
+# Aplica a função à coluna 'GenHlth' e sobrescreve os valores originais
+datainput['GenHlth'] = datainput['GenHlth'].apply(genhlth_to_group)
+
 
 
 # selecionar as colunas de entrada
