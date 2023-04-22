@@ -13,71 +13,7 @@ class ArvoreDecisao:
     def __init__(self, filename):
         self.filename = filename
 
-    def lerDados(self):
-        
-        
-        # ler arquivo CSV
-        datainput = pd.read_csv("bd_diabetes.csv", delimiter=",")
-        datainput = datainput.drop_duplicates() #eliminar redundancia
-
-        # Define a função para agrupar as idades
-        def age_to_group(age):
-            if age in range(18, 40):
-                return 1
-            elif age in range(40, 60):
-                return 2
-            elif age in range(60, 80):
-                return 3
-            elif age >= 80:
-                return 4
-            else:
-                return 5
-
-        # Aplica a função à coluna 'Age' e sobrescreve os valores originais
-        datainput['Age'] = datainput['Age'].apply(age_to_group)
-
-        # Define a função para agrupar as faixas de renda
-        def income_to_group(income):
-            if income < 15000:
-                return 1
-            elif income < 25000:
-                return 2
-            elif income < 50000:
-                return 3
-            elif income < 75000:
-                return 4
-            else:
-                return 5
-
-        # Aplica a função à coluna 'Income' e sobrescreve os valores originais
-        datainput['Income'] = datainput['Income'].apply(income_to_group)
-
-        def genhlth_to_group(genhlth):
-            if genhlth == 5:
-                return 1
-            elif genhlth == 4:
-                return 2
-            elif genhlth == 3:
-                return 3
-            elif genhlth == 2:
-                return 4
-            else:
-                return 5
-
-
-        # Aplica a função à coluna 'GenHlth' e sobrescreve os valores originais
-        datainput['GenHlth'] = datainput['GenHlth'].apply(genhlth_to_group)
-
-        # selecionar as colunas de entrada
-        X = datainput[['HighBP', 'HighChol', 'CholCheck', 'BMI', 'Smoker', 'Stroke', 'HeartDiseaseorAttack', 'PhysActivity', 'Fruits', 'Veggies',
-                    'HvyAlcoholConsump', 'AnyHealthcare', 'NoDocbcCost', 'GenHlth', 'MentHlth', 'PhysHlth', 'DiffWalk', 'Sex', 'Age', 'Education', 'Income']].values
-
-        # selecionar a coluna de saída (rótulo)
-        y = datainput["Diabetes_binary"]
-
-        # undersampling
-        rus = RandomUnderSampler(random_state=0)
-        X_resampled, y_resampled = rus.fit_resample(X, y)
+    def lerDados(self,X_resampled, y_resampled):
 
         # divisão dos dados em treino e teste
         X_train, X_test, y_train, y_test = train_test_split(
