@@ -3,11 +3,8 @@ from diabetesNBComPreProcessamento import NB
 import matplotlib.pyplot as plt
 import pandas as pd
 from imblearn.under_sampling import RandomUnderSampler
-
-# ler arquivo CSV
-datainput = pd.read_csv("bd_diabetes.csv", delimiter=",")
-
-datainput = datainput.drop_duplicates() #eliminar redundancia
+from scipy import stats
+from sklearn.impute import SimpleImputer
 
 # Define a função para agrupar as idades
 def age_to_group(age):
@@ -21,11 +18,7 @@ def age_to_group(age):
         return 4
     else:
         return 5
-
-
-# Aplica a função à coluna 'Age' e sobrescreve os valores originais
-datainput['Age'] = datainput['Age'].apply(age_to_group)
-
+    
 # Define a função para agrupar as faixas de renda
 def income_to_group(income):
     if income in range(1, 2):
@@ -39,9 +32,7 @@ def income_to_group(income):
     else:
         return 5
 
-# Aplica a função à coluna 'Income' e sobrescreve os valores originais
-datainput['Income'] = datainput['Income'].apply(income_to_group)
-
+# Define a função para alterar a logica da classificacao de saude
 def genhlth_to_group(genhlth):
     if genhlth == 5:
         return 1
@@ -54,6 +45,28 @@ def genhlth_to_group(genhlth):
     else:
         return 5
 
+
+# ler arquivo CSV
+datainput = pd.read_csv("bd_diabetes.csv", delimiter=",")
+
+#----------------------
+# tratando outliers
+for col in datainput.columns:
+    if col  in ['BMI','GenHlth',  'MentHlth', 'PhysHlth', 'Age', 'Education', 'Income']:
+        Q1 = datainput[col].quantile(0.25)
+        Q3 = datainput[col].quantile(0.75)
+        IQR = Q3 - Q1
+        outliers = datainput[(datainput[col] < Q1 - 1.5 * IQR) | (datainput[col] > Q3 + 1.5 * IQR)]
+        datainput = datainput.drop(outliers.index)
+#----------------------
+
+datainput = datainput.drop_duplicates() #eliminar redundancia
+
+# Aplica a função à coluna 'Age' e sobrescreve os valores originais
+datainput['Age'] = datainput['Age'].apply(age_to_group)
+
+# Aplica a função à coluna 'Income' e sobrescreve os valores originais
+datainput['Income'] = datainput['Income'].apply(income_to_group)
 
 # Aplica a função à coluna 'GenHlth' e sobrescreve os valores originais
 datainput['GenHlth'] = datainput['GenHlth'].apply(genhlth_to_group)
