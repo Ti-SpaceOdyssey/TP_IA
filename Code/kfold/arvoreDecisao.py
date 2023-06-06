@@ -11,7 +11,7 @@ class ArvoreDecisao:
     def lerDados(self, X_resampled, y_resampled):
         print("\nARVORE DE DECISAO")
         # Inicializa o KFold
-        clf = DecisionTreeClassifier(max_depth=5, min_samples_split=10)
+        clf = DecisionTreeClassifier(max_depth=5)
         kf = KFold(n_splits=10, shuffle=True, random_state=42)
         # Calcula o valor de validação cruzada
         scores = cross_val_score(clf, X_resampled, y_resampled, cv=kf)
