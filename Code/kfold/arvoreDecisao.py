@@ -38,7 +38,7 @@ class ArvoreDecisao:
             y_train, y_test = y_resampled[train_index], y_resampled[test_index]
 
             # Treinamento do modelo
-            modelo =  DecisionTreeClassifier(max_depth=5, min_samples_split=10)
+            modelo =  DecisionTreeClassifier(max_depth=5)
             modelo.fit(X_train, y_train)
 
             # Teste do modelo
@@ -118,5 +118,3 @@ class ArvoreDecisao:
                 file.write(fold_title + "\n")
                 file.write(dot_data)
                 file.write("\n---------------------------\n")
-
-
